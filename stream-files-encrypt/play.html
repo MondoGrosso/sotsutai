@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <!-- 参考URL -->
+  <!-- https://qiita.com/t114/items/c7fdffaa2e7fdf406a7b -->
+  <meta charset="utf-8">
+  <title>Video.js Sample</title>
+  <link href="static/css/default.css" rel="stylesheet">
+  <link href="static/css/video-js.min.css" rel="stylesheet">
+  <script src="static/js/video.min.js"></script>
+  <script src="static/js/videojs-contrib-media-sources.min.js"></script>
+  <script src="static/js/videojs-contrib-hls.min.js"></script>
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+  <script>
+      $(function() {
+        var getWindowMovieHeight = function() {
+          // ここでブラウザの縦横のサイズを取得します。
+          var windowSizeHeight = $(window).outerHeight();
+          var windowSizeWidth = $(window).outerWidth();
+
+          console.log("windowSizeHeight="+windowSizeHeight);
+      
+          // メディアの縦横比に合わせて数値は変更して下さい。(メディアのサイズが width < heightの場合で書いています。逆の場合は演算子を逆にしてください。)
+          var windowMovieSizeWidth = windowSizeHeight / 1.76388889;
+          var windowMovieSizeHeight = windowSizeWidth * 1.76388889;
+          var windowMovieSizeWidthLeftMargin = (windowMovieSizeWidth - windowSizeWidth) / 2;
+      
+          if (windowMovieSizeHeight < windowSizeHeight) {
+            // 横幅のほうが大きくなってしまう場合にだけ反応するようにしています。
+            $("#video").css({left: -windowMovieSizeWidthLeftMargin});
+            console.log("windowMovieSizeWidthLeftMargin="+windowMovieSizeWidthLeftMargin);
+          }
+        };
+      
+        // 以下画面の可変にも対応できるように。
+        $(window).on('load', function(){
+          getWindowMovieHeight();
+        });
+      
+        $(window).on('resize', function(){
+          getWindowMovieHeight();
+        });
+      });
+  </script>
+</head>
+
+<body>
+<div class="wrapper">
+    <video id="video" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto"
+    data-setup='{"fluid": true}'>
+       <source src="output.m3u8" type="application/x-mpegURL">
+    </video>
+</div>
+
+</body>
+</html>
